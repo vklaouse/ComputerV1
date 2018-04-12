@@ -38,28 +38,83 @@ def parser(argv): # Get the equation
 	return equation
 
 def reduceEquation(equation, opt):
+	print equation
 	equation = behindEqual(equation, opt)
+	print equation
 	equation = findUselessX(equation, opt)
+	print equation
+	equation = reductionByMultiplication(equation, opt)
+	print equation
+	equation = reductionByAddition(equation, opt)
+	print equation
+	# equation = reductionBySoustraction(equation, opt)
+
 	return equation
+
+def reductionByMultiplication(equation, opt):
+	cnt = 0
+	leftFloat = 0.0
+	rightFloat = 0.0
+	while cnt < len(equation):
+		if equation[cnt] == '*' and equation[cnt + 1].isdigit():
+			leftFloat = float(equation[cnt - 1])
+			rightFloat = float(equation[cnt + 1])
+			cnt -= 1
+			equation.pop(cnt)
+			equation.pop(cnt)
+			equation.pop(cnt)
+			equation.insert(cnt, leftFloat * rightFloat)
+ 
+		cnt += 1
+	return equation
+
+def reductionByAddition(equation, opt):
+	cnt = 0
+	leftFloat = 0.0
+	rightFloat = 0.0
+	while cnt < len(equation):
+		if equation[cnt] == '+':
+			if cnt < len(equation) - 1: 
+				leftFloat = float(equation[cnt - 1])
+
+
+		cnt += 1
+	return equation
+
+
 
 def findUselessX(equation, opt):
 	cnt = 0
-	while cnt < len(equation):
-		if equation[cnt][0] == 'X' and equation[cnt][2] == '0'
-			
-
+	while equation[cnt] != '=':
+		if equation[cnt][0] == 'X' and equation[cnt][2] == '0':
+			equation.pop(cnt)
+			cnt -= 1
+			equation.pop(cnt)
+		elif equation[cnt] == '0' and cnt < len(equation) - 1 and equation[cnt + 1] == '*':
+			equation.pop(cnt)
+			equation.pop(cnt)
+			equation.pop(cnt)
+			cnt -= 1
+			equation.pop(cnt)
+		cnt += 1
+	return equation	
 
 def behindEqual(equation, opt): # Start the reduction
 	size = len(equation) - 1
+	neg = 0
 	while size > 0:
 		if equation[size] == '=':
 			equation.insert(size + 1, '0')
 			if equation[0] == '+':
 				equation.pop(0)
-			else:
+			elif neg:
 				equation.insert(0, '-')
 			break
+		elif equation[size] == '0':
+			equation.pop(size)
+			size -= 1
 		else:
+			neg = 1
 			if (equation[0].isdigit() or equation[0][0] == 'X') and (equation[size].isdigit() or equation[size][0] == 'X'):
 				equation.insert(0, equation[size])
 				equation.insert(1, '+')
