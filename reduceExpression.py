@@ -139,6 +139,24 @@ def clearExpression(equation):
 		cnt += 1
 	if equation[0] == '+':
 		equation.pop(0)
+	cnt = 0
+	degree = 1
+	while cnt < len(equation) - 2:
+		if equation[cnt][0] == 'X' and float(equation[cnt][2:len(equation[cnt])]) == float(degree):
+			i = cnt + 1
+			while i < len(equation) - 2:
+				if equation[i][0] == 'X' and float(equation[i][2:len(equation[i])]) == float(degree):
+					equation.insert(cnt + 1, equation[i])
+					equation.pop(i + 1);
+					equation.insert(cnt + 1, equation[i])
+					equation.pop(i + 1);
+					equation.insert(cnt + 1, equation[i])
+					equation.pop(i + 1);
+					equation.insert(cnt + 1, equation[i])
+					equation.pop(i + 1);
+				i += 1
+			degree += 1
+		cnt += 1
 	if equation[0] == '=':
 		equation.insert(0, '0')
 	return equation	

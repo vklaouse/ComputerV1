@@ -3,13 +3,13 @@ from reduceExpression import reduceEquation
 from resolution import resolve
 
 def printHelp():
-	print('\tUsage: python main.py [["Equation"] [-v]] | [-h]\n')
-	print('\t\t-h \t Helper mode')
-	print('\t\t-v \t Verbose mode\n')
+	print('Usage: python main.py [["Equation"] [-v]] | [-h]')
+	print('\t-h \t Helper mode')
+	print('\t-v \t Verbose mode')
 	sys.exit(2)
 
 def printError(strg):
-	print strg
+	print "\033[91m" + strg + "\033[0m"
 	sys.exit(2)
 
 def lexer(argv): # Check the syntax

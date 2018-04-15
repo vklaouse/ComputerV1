@@ -1,14 +1,14 @@
 def resolve(equation):
 	degree = findDegree(equation)
-	print "Reduced form: " + displayExpression(equation)
-	print "Polynomial degree: " + str(degree)
+	print "\033[92mReduced form: \033[0m" + displayExpression(equation)
+	print "\033[92mPolynomial degree: \033[0m" + str(degree)
 	if float(degree) == 0:
 		if equation[0] != '0':
-			print 'No possible solutions.'
+			print '\033[92mNo possible solutions.\033[0m'
 		else:
-			print 'All real numbers are a solution.'
+			print '\033[92mAll real numbers are a solution.\033[0m'
 	elif float(degree) == 1:
-		print "The solution is : "
+		print "\033[92mThe solution is : \033[0m"
 		res = 0
 		string = ""
 		cnt = 0
@@ -26,9 +26,9 @@ def resolve(equation):
 			cnt += 1
 		print '\t' + str(res) + ' soit ' + string
 	elif float(degree) == 2:
-		getResult(equation)
+		printResult(equation)
 	elif float(degree) > 2:
-		print "The polynomial degree is stricly greater than 2, I can't solve."
+		print "\033[92mThe polynomial degree is stricly greater than 2, I can't solve.\033[0m"
 
 def findDegree(equation):
 	degree = 0.0
@@ -37,7 +37,7 @@ def findDegree(equation):
 			degree = token[2:len(token)]
 	return degree
 
-def getResult(equation):
+def printResult(equation):
 	A = 0.0
 	B = 0.0
 	C = 0.0
@@ -57,32 +57,35 @@ def getResult(equation):
 				C *= -1
 		cnt += 1
 	delta = str(B ** 2 - 4 * A * C)
-	print "Discriminant: " + delta
+	print "\033[92mDiscriminant: \033[0m" + delta
 	if float(delta) > 0:
-		print "The two solutions are: "
+		print "\033[92mThe two solutions are: \033[0m"
 		tmp = ((B * -1) + (ft_sqrt(delta))) / (2 * A)
 		print '\t' + str(tmp)
 		tmp = ((B * -1) - (ft_sqrt(delta))) / (2 * A)
 		print '\t' + str(tmp)
 	elif float(delta) == 0:
-		print "The solution is: "
+		print "\033[92mThe solution is: \033[0m"
 		tmp = (B * -1) / (2 * A)
-		print tmp
+		print '\t' + str(tmp)
 	elif float(delta) < 0:
-		print "The two solutions are: "
-		# z = ft_complex(0,1)
-		# tmp = (b - z * (sqrt(-delta))) / (2 * a)
-		# print '\t' + str(tmp)
-		# tmp = (b + z * (sqrt(-delta))) / (2 * a)
-		# print '\t' + str(tmp)
+		print "\033[92mThe two solutions are: \033[0m"
+		z = 1j
+		tmp = ((B * -1) + z * (ft_sqrt(ft_abs(float(delta))))) / (2 * A)
+		print '\t' + str(tmp).replace("j", "i", 1)
+		tmp = ((B * -1) - z * (ft_sqrt(ft_abs(float(delta))))) / (2 * A)
+		print '\t' + str(tmp).replace("j", "i", 1)
+		
 	else:
-		print "No solutions."
+		print "\033[92mNo solutions.\033[0m"
 
 def ft_sqrt(x):
 	return float(x)**float(1/2.0)
 
-# def ft_complex(x, y)
-# 	return 0
+def ft_abs(val):
+	if val < 0:
+		val *= -1
+	return val
 
 def displayExpression(equation):
 	string = ""
